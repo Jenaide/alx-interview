@@ -14,15 +14,12 @@ def canUnlockAll(boxes):
     Return
     - True if all boxes were opened, or False if not
     """
-    x = len(boxes) # number of boxes
-    visited = [False] * x # keeping track of visited boxes
-    stack = [0] # starts with the first box
-
-    while stack:
-        num_box = stack.pop()
-        if not visited[num_box]:
-            visited[num_box] = True
-            keys = boxes[num_box]
-            stack.extend(keys)
-
-    return all(visited)
+    for key in range(1, len(boxes) - 1):
+        num_box = False
+        for index in range(len(boxes)):
+            num_box = key in boxes[index] and key != index
+            if num_box:
+                break
+        if num_box is False:
+            return num_box
+    return True
