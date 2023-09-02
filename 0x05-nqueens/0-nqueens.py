@@ -4,43 +4,29 @@ Created by Jenaide Sibolie
 """
 import sys
 
-def queens(N):
-    def is_valid(board, row, col):
-        """
-        checks if theres a queen vertically in a row
-        """
-        for i in range(row):
-            if board[i] == col:
-                return False
-        """
-        checks if theres a queen diagonally in a row
-        """
-        for i in range(row):
-            if abs(board[i] - col) == abs(i - row):
-                return False
-        return True
+
+def is_valid(board, row, col):
+    """
+    checks if theres a queen vertically or 
+    diagonally in a row
+    """
+    for i in range(row):
+        if board[i] == col or \
+           board[i] - i == col - row or \
+           board[i] + i == col + row:
+               return False
+    return True
     
 
-    def solve_nqueens(board, row):
-        if row == N:
-            solutions.append(board[:])
-            return
-        for col in range(N):
-            if is_valid(board, row, col):
-                board[row] = col
-                solve_nqueens(board, row + 1)
-    """
-    Creates en empty board
-    """
-    board = [-1] * N
+def solve_nqueens(board, row):
+    if row == len(board):
+        print([[i, board[i]] for i in range(len(board))])
+        return
+    for col in range(len(board)):
+        if is_valid(board, row, col):
+            board[row] = col
+            solve_nqueens(board, row + 1)
 
-    solutions = []
-
-    """ instruction to start solving from the first row """
-    solve_nqueens(board, 0)
-
-    for sol in solutions:
-        print(sol)
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
@@ -59,4 +45,5 @@ if __name__ == '__main__':
         sys.exit(1)
 
     """ N-queen solved """
-    queens(N)
+    board = [-1] * N
+    solve_nqueens(board, 0)
